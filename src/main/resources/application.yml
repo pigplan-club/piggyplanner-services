@@ -1,0 +1,24 @@
+account:
+  default_account_name: Personal
+  records-quota-by-month: 100
+  categories-quota: 10
+  category-items-quota: 80
+
+spring:
+  application:
+    name: Piggy Planner Services
+  data:
+    mongodb:
+      authentication-database: admin
+      database: piggyplanner
+      host: localhost
+      password: admin
+      port: 27017
+      username: admin
+
+graphql:
+  packages:
+    - "club.pigplan.piggyplanner"
+
+server:
+  port: 8181
