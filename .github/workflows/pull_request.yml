@@ -3,10 +3,13 @@ name: pull_request
 on: [pull_request]
 
 jobs:
-  test-backend:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: Test and build
         run: ./gradlew build
+
+      - name: Run sonar build
+        run: ./gradlew sonarqube

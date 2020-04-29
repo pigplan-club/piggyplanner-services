@@ -184,6 +184,8 @@ class CategoryTest {
         assertEquals("Same id and name should be equals", category1, category2)
         assertNotEquals("Different id and same name should be differents", category1, category3)
         assertNotEquals("Same id and different name should be differents", category1, category4)
+        assertNotEquals("Different object types should be different", category1, list)
+        assertNotEquals("Null object should be different", category1, null)
         assertTrue(list.contains(category2))
         assertFalse(list.contains(category4))
 
@@ -204,6 +206,9 @@ class CategoryTest {
         assertEquals("Same id and name should be equals", categoryItem1, categoryItem2)
         assertNotEquals("Different id and same name should be differents", categoryItem1, categoryItem3)
         assertNotEquals("Same id and different name should be differents", categoryItem1, categoryItem4)
+        assertNotEquals("Different object types should be different", categoryItem1, list)
+        assertNotEquals("Null object should be different", categoryItem1, null)
+
         assertTrue(list.contains(categoryItem2))
         assertFalse(list.contains(categoryItem4))
 

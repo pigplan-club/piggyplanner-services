@@ -43,6 +43,7 @@ class RecordTest {
         val createRecordCommand = UtilTest.generateCreateRecordCommand(record)
 
         fixture.given(UtilTest.generateDefaultAccountCreatedEvent())
+                .andGiven(UtilTest.generateCategoryCreatedEvent(UtilTest.category2))
                 .andGiven(UtilTest.generateCategoryCreatedEvent())
                 .andGiven(UtilTest.generateCategoryItemCreatedEvent())
                 .`when`(createRecordCommand)
@@ -74,6 +75,7 @@ class RecordTest {
                 memo = recordModified.memo)
 
         fixture.given(UtilTest.generateDefaultAccountCreatedEvent())
+                .andGiven(UtilTest.generateCategoryCreatedEvent(UtilTest.category2))
                 .andGiven(UtilTest.generateCategoryCreatedEvent())
                 .andGiven(UtilTest.generateCategoryItemCreatedEvent())
                 .andGiven(RecordCreated(AccountId(UtilTest.accountId), record))
@@ -428,6 +430,9 @@ class RecordTest {
         assertEquals("Same object should be equals", record1, record1)
         assertEquals("Same id should be equals", record1, record2)
         assertNotEquals("Different id should be different", record1, record3)
+        assertNotEquals("Different object types should be different", record1, list)
+        assertNotEquals("Null object should be different", record1, null)
+
         assertTrue(list.contains(record2))
         assertFalse(list.contains(record4))
 

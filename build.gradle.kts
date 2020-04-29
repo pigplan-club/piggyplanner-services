@@ -6,6 +6,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("com.google.cloud.tools.jib") version "2.2.0"
     id("info.solidsoft.pitest") version "1.4.7"
+    id("org.sonarqube") version "2.8"
     kotlin("jvm") version "1.3.71"
     kotlin("plugin.spring") version "1.3.71"
     jacoco
@@ -74,9 +75,13 @@ jib {
 tasks {
     withType<Test> {
         useJUnitPlatform()
-        if (System.getenv("EXCLUDE_IT") == "true") {
-            exclude("**/presentation*")
+        configure<JacocoTaskExtension> {
+            excludes = listOf(
+                    "**/common/infrastructure/**",
+                    "**/PiggyPlannerServicesApplication"
+            )
         }
+
         finalizedBy(jacocoTestReport)
     }
 
@@ -90,7 +95,7 @@ tasks {
     jacocoTestReport {
         reports {
             xml.isEnabled = true
-            xml.destination  = File("$buildDir/reports/jacoco/report.xml")
+            xml.destination = File("$buildDir/reports/jacoco/report.xml")
             csv.isEnabled = false
             html.isEnabled = true
         }
@@ -102,13 +107,25 @@ tasks {
         threads.set(1)
         outputFormats.set(setOf("HTML"))
         mutators.set(setOf("DEFAULTS"))
-//        mutators.set(setOf("STRONGER", "DEFAULTS", "ALL"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal", "kotlinx.coroutines"))
         targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
-//        targetClasses.set(setOf("club.pigplan.piggyplanner.account.domain.*"))
     }
 
     named("build") {
         dependsOn("test")
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "pigplan-club_piggyplanner-services")
+        property("sonar.organization", "pigplanclub")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.login", "43d07c88a743309184313a31040f14e96e13ac63")
+        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/report.xml")
     }
 }
