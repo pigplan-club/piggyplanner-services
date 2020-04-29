@@ -10,3 +10,6 @@ jobs:
 
       - name: Test and build
         run: ./gradlew build
+
+      - name: Run sonar build
+        run: ./gradlew sonarqube
