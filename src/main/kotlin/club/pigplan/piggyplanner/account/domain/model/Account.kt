@@ -1,9 +1,9 @@
 package club.pigplan.piggyplanner.account.domain.model
 
+import club.pigplan.piggyplanner.account.domain.operations.*
 import club.pigplan.piggyplanner.account.infrastructure.config.AccountConfigProperties
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
-import club.pigplan.piggyplanner.account.domain.operations.*
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
@@ -155,16 +155,17 @@ class Account() : Entity() {
 
     @EventSourcingHandler
     fun on(event: RecordDeleted) {
-        val record = this.records.find { record -> record.recordId == event.recordId }
-        this.records.remove(record)
+        this.records.remove(
+                Record(event.recordId)
+        )
     }
 
     private fun numberRecordsForSelectedMonth(date: LocalDate): Int {
-        val firstDayOftheMonth = date.minusDays(date.dayOfMonth - 1.toLong())
-        val lastDayOftheMonth = date.minusDays(date.dayOfMonth.toLong()).plusMonths(1)
+        val firstDayOfTheMonth = date.minusDays(date.dayOfMonth - 1.toLong())
+        val lastDayOfTheMonth = date.minusDays(date.dayOfMonth.toLong()).plusMonths(1)
 
         return records
-                .filter { it.date >= firstDayOftheMonth && it.date <= lastDayOftheMonth }
+                .filter { it.date >= firstDayOfTheMonth && it.date <= lastDayOfTheMonth }
                 .size
     }
 }

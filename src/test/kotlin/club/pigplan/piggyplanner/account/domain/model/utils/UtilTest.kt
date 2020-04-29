@@ -17,6 +17,7 @@ class UtilTest {
         private val userId = UUID.randomUUID()
         val accountId: UUID = UUID.randomUUID()
         val category = Category(CategoryId(UUID.randomUUID()), "Utility")
+        val category2 = Category(CategoryId(UUID.randomUUID()), "Clothes")
         val categoryItem = CategoryItem(CategoryItemId(UUID.randomUUID()), "Energy")
 
         fun generateDefaultAccountCreatedEvent(
@@ -45,8 +46,8 @@ class UtilTest {
         fun generateCategoryItemCreatedEvent() =
                 CategoryItemCreated(AccountId(accountId), category.categoryId, categoryItem)
 
-        fun generateCategoryCreatedEvent() =
-                CategoryCreated(AccountId(accountId), category)
+        fun generateCategoryCreatedEvent(categorySelected: Category? = category) =
+                CategoryCreated(AccountId(accountId), categorySelected!!)
 
         fun createRecordForTest(withMemo: Boolean, amount: BigDecimal? = BigDecimal.ONE, date: LocalDate? = LocalDate.now()): Record {
             val recordId = UUID.randomUUID()

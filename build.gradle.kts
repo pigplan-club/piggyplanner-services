@@ -75,9 +75,13 @@ jib {
 tasks {
     withType<Test> {
         useJUnitPlatform()
-        if (System.getenv("EXCLUDE_IT") == "true") {
-            exclude("**/presentation*")
+        configure<JacocoTaskExtension> {
+            excludes = listOf(
+                    "**/common/infrastructure/**",
+                    "**/PiggyPlannerServicesApplication"
+            )
         }
+
         finalizedBy(jacocoTestReport)
     }
 
@@ -103,15 +107,17 @@ tasks {
         threads.set(1)
         outputFormats.set(setOf("HTML"))
         mutators.set(setOf("DEFAULTS"))
-//        mutators.set(setOf("STRONGER", "DEFAULTS", "ALL"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal", "kotlinx.coroutines"))
         targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
-//        targetClasses.set(setOf("club.pigplan.piggyplanner.account.domain.*"))
     }
 
     named("build") {
         dependsOn("test")
     }
+}
+
+jacoco {
+    toolVersion = "0.8.5"
 }
 
 sonarqube {
