@@ -119,7 +119,7 @@ sonarqube {
         property("sonar.projectKey", "pigplan-club_piggyplanner-services")
         property("sonar.organization", "pigplanclub")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.login", "e88e65e4e966d73d663dc3abc058e6f7490f1671")
-        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/")
+        property("sonar.login", "43d07c88a743309184313a31040f14e96e13ac63")
+        property("sonar.coverage.jacoco.xmlReportPaths", "$buildDir/reports/jacoco/report.xml")
     }
 }
