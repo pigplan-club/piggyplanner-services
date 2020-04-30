@@ -11,14 +11,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/labeler@v2
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Test and build
         run: ./gradlew build
 
       - name: Run sonar build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew sonarqube
 
   deploy:
