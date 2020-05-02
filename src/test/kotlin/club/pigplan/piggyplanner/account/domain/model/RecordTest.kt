@@ -380,7 +380,7 @@ class RecordTest {
 
     @Test
     internal fun `Create a Record evaluating the quota for the specific month should be correct`() {
-        val firstDayThisMonth = if (LocalDate.now().dayOfMonth == 1) LocalDate.now() else LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong())
+        val firstDayThisMonth = LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong() - 1)
         val thisMonthRecord = UtilTest.createRecordForTest(true, date = firstDayThisMonth)
         val lastDayOfLastLastMonth = LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong()).minusMonths(1)
         val recordLastLastMonth = UtilTest.createRecordForTest(true, date = lastDayOfLastLastMonth)
