@@ -1,7 +1,12 @@
 package club.pigplan.piggyplanner.account.domain.model
 
+import club.pigplan.piggyplanner.account.domain.CreateRecord
+import club.pigplan.piggyplanner.account.domain.DeleteRecord
+import club.pigplan.piggyplanner.account.domain.ModifyRecord
+import club.pigplan.piggyplanner.account.domain.RecordCreated
+import club.pigplan.piggyplanner.account.domain.RecordDeleted
+import club.pigplan.piggyplanner.account.domain.RecordModified
 import club.pigplan.piggyplanner.account.domain.model.utils.UtilTest
-import club.pigplan.piggyplanner.account.domain.operations.*
 import org.axonframework.modelling.command.AggregateNotFoundException
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -375,7 +380,7 @@ class RecordTest {
 
     @Test
     internal fun `Create a Record evaluating the quota for the specific month should be correct`() {
-        val firstDayThisMonth = LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong())
+        val firstDayThisMonth = if (LocalDate.now().dayOfMonth == 1) LocalDate.now() else LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong())
         val thisMonthRecord = UtilTest.createRecordForTest(true, date = firstDayThisMonth)
         val lastDayOfLastLastMonth = LocalDate.now().minusDays(LocalDate.now().dayOfMonth.toLong()).minusMonths(1)
         val recordLastLastMonth = UtilTest.createRecordForTest(true, date = lastDayOfLastLastMonth)

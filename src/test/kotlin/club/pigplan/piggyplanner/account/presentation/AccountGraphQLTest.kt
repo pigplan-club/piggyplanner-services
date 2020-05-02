@@ -22,14 +22,14 @@ internal class AccountGraphQLTest {
     private lateinit var commandGateway: CommandGateway
 
     @Autowired
-    private lateinit var accountMutations: AccountMutations
+    private lateinit var graphQLMutations: GraphQLMutations
 
     @Test
     fun `Create a default Account should be correct`() {
         val future = createCompletableFuture()
         future.complete(AccountId(UUID.randomUUID()))
 
-        val response = accountMutations.createDefaultAccount()
+        val response = graphQLMutations.createDefaultAccount()
         assertNotNull("Expected AccountId not null", response.get().id)
         assertEquals("Expected response id equal to the mocked value", response.get(), future.get())
     }
@@ -40,7 +40,7 @@ internal class AccountGraphQLTest {
         future.complete(true)
 
         val recordDTO = createRecordDTO()
-        val response = accountMutations.createRecord(recordDTO)
+        val response = graphQLMutations.createRecord(recordDTO)
         assertNotNull("Expected response not null", response.get())
         assertEquals("Expected response equal to the mocked value", response.get(), future.get())
     }
@@ -51,7 +51,7 @@ internal class AccountGraphQLTest {
         future.complete(true)
 
         val recordDTO = createRecordDTO()
-        val response = accountMutations.modifyRecord(recordDTO)
+        val response = graphQLMutations.modifyRecord(recordDTO)
         assertNotNull("Expected response not null", response.get())
         assertEquals("Expected response equal to the mocked value", response.get(), future.get())
     }
@@ -61,7 +61,7 @@ internal class AccountGraphQLTest {
         val future = createCompletableFuture()
         future.complete(true)
 
-        val response = accountMutations.deleteRecord(accountId = UUID.randomUUID(), recordId = UUID.randomUUID())
+        val response = graphQLMutations.deleteRecord(accountId = UUID.randomUUID(), recordId = UUID.randomUUID())
         assertNotNull("Expected response not null", response.get())
         assertEquals("Expected response equal to the mocked value", response.get(), future.get())
     }

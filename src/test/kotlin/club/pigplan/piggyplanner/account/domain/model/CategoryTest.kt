@@ -1,10 +1,10 @@
 package club.pigplan.piggyplanner.account.domain.model
 
 import club.pigplan.piggyplanner.account.domain.model.utils.UtilTest
-import club.pigplan.piggyplanner.account.domain.operations.CategoryCreated
-import club.pigplan.piggyplanner.account.domain.operations.CategoryItemCreated
-import club.pigplan.piggyplanner.account.domain.operations.CreateCategory
-import club.pigplan.piggyplanner.account.domain.operations.CreateCategoryItem
+import club.pigplan.piggyplanner.account.domain.CategoryCreated
+import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
+import club.pigplan.piggyplanner.account.domain.CreateCategory
+import club.pigplan.piggyplanner.account.domain.CreateCategoryItem
 import org.axonframework.modelling.command.AggregateNotFoundException
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration

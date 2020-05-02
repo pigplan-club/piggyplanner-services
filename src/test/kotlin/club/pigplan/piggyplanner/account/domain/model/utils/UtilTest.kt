@@ -1,10 +1,10 @@
 package club.pigplan.piggyplanner.account.domain.model.utils
 
-import club.pigplan.piggyplanner.account.domain.operations.CategoryCreated
-import club.pigplan.piggyplanner.account.domain.operations.CategoryItemCreated
-import club.pigplan.piggyplanner.account.domain.operations.CreateRecord
-import club.pigplan.piggyplanner.account.domain.operations.DefaultAccountCreated
-import club.pigplan.piggyplanner.account.infrastructure.config.AccountConfigProperties
+import club.pigplan.piggyplanner.account.domain.CategoryCreated
+import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
+import club.pigplan.piggyplanner.account.domain.CreateRecord
+import club.pigplan.piggyplanner.account.domain.DefaultAccountCreated
+import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import club.pigplan.piggyplanner.account.domain.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -13,7 +13,7 @@ import java.util.*
 class UtilTest {
 
     companion object {
-        private val accountConfigProperties = AccountConfigProperties("Personal", 5, 5, 5)
+        private val accountConfigProperties = ConfigurationProperties("Personal", 5, 5, 5)
         private val userId = UUID.randomUUID()
         val accountId: UUID = UUID.randomUUID()
         val category = Category(CategoryId(UUID.randomUUID()), "Utility")

@@ -1,7 +1,7 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.*
-import club.pigplan.piggyplanner.account.infrastructure.config.AccountConfigProperties
+import club.pigplan.piggyplanner.account.domain.*
+import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
 import org.axonframework.commandhandling.CommandHandler
@@ -31,14 +31,14 @@ class Account() : Entity() {
     private val categories = mutableSetOf<Category>()
 
     @CommandHandler
-    constructor(command: CreateDefaultAccount, accountConfigProperties: AccountConfigProperties) : this() {
+    constructor(command: CreateDefaultAccount, configurationProperties: ConfigurationProperties) : this() {
         AggregateLifecycle.apply(DefaultAccountCreated(
                 command.accountId,
                 command.userId,
-                accountConfigProperties.defaultAccountName,
-                accountConfigProperties.recordsQuotaByMonth,
-                accountConfigProperties.categoriesQuota,
-                accountConfigProperties.categoryItemsQuota)
+                configurationProperties.defaultAccountName,
+                configurationProperties.recordsQuotaByMonth,
+                configurationProperties.categoriesQuota,
+                configurationProperties.categoryItemsQuota)
         )
 
         command.categories.forEach { AggregateLifecycle.apply(CategoryCreated(command.accountId, it)) }

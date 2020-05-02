@@ -1,4 +1,4 @@
-package club.pigplan.piggyplanner.account.domain.operations
+package club.pigplan.piggyplanner.account.domain
 
 import club.pigplan.piggyplanner.account.domain.model.*
 import org.axonframework.serialization.Revision

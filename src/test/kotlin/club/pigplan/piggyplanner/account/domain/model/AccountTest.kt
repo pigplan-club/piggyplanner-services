@@ -1,8 +1,8 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.CreateDefaultAccount
-import club.pigplan.piggyplanner.account.domain.operations.DefaultAccountCreated
-import club.pigplan.piggyplanner.account.infrastructure.config.AccountConfigProperties
+import club.pigplan.piggyplanner.account.domain.CreateDefaultAccount
+import club.pigplan.piggyplanner.account.domain.DefaultAccountCreated
+import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.axonframework.test.matchers.Matchers
@@ -12,11 +12,11 @@ import java.util.*
 
 class AccountTest {
     private lateinit var fixture: FixtureConfiguration<Account>
-    lateinit var accountConfigProperties: AccountConfigProperties
+    lateinit var configurationProperties: ConfigurationProperties
 
     @BeforeEach
     internal fun setUp() {
-        accountConfigProperties = AccountConfigProperties("Personal", 2, 2, 2)
+        configurationProperties = ConfigurationProperties("Personal", 2, 2, 2)
         fixture = AggregateTestFixture(Account::class.java)
     }
 
@@ -25,7 +25,7 @@ class AccountTest {
         val userId = UUID.randomUUID()
         val createDefaultAccountCommand = CreateDefaultAccount(UserId(userId))
 
-        fixture.registerInjectableResource(accountConfigProperties)
+        fixture.registerInjectableResource(configurationProperties)
                 .givenNoPriorActivity()
                 .`when`(createDefaultAccountCommand)
                 .expectSuccessfulHandlerExecution()
@@ -33,10 +33,10 @@ class AccountTest {
                         com.shazam.shazamcrest.matcher.Matchers.sameBeanAs(
                                 DefaultAccountCreated(createDefaultAccountCommand.accountId,
                                         UserId(userId),
-                                        accountConfigProperties.defaultAccountName,
-                                        accountConfigProperties.recordsQuotaByMonth,
-                                        accountConfigProperties.categoriesQuota,
-                                        accountConfigProperties.categoryItemsQuota
+                                        configurationProperties.defaultAccountName,
+                                        configurationProperties.recordsQuotaByMonth,
+                                        configurationProperties.categoriesQuota,
+                                        configurationProperties.categoryItemsQuota
                                 )
                         ))))
                 .expectResultMessagePayload(createDefaultAccountCommand.accountId)

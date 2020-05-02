@@ -75,13 +75,6 @@ jib {
 tasks {
     withType<Test> {
         useJUnitPlatform()
-        configure<JacocoTaskExtension> {
-            excludes = listOf(
-                    "**/common/infrastructure/**",
-                    "**/PiggyPlannerServicesApplication"
-            )
-        }
-
         finalizedBy(jacocoTestReport)
     }
 
@@ -108,7 +101,8 @@ tasks {
         outputFormats.set(setOf("HTML"))
         mutators.set(setOf("DEFAULTS"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal", "kotlinx.coroutines"))
-        targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
+//        targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
+        targetClasses.set(setOf("club.pigplan.piggyplanner.account.domain.*"))
     }
 
     named("build") {

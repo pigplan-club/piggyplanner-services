@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.CategoryItemCreated
+import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
 import org.axonframework.eventsourcing.EventSourcingHandler

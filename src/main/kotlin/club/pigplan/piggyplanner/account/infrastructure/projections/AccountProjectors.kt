@@ -1,7 +1,7 @@
-package club.pigplan.piggyplanner.account.domain.projections
+package club.pigplan.piggyplanner.account.infrastructure.projections
 
+import club.pigplan.piggyplanner.account.domain.*
 import club.pigplan.piggyplanner.account.domain.model.CategoryItem
-import club.pigplan.piggyplanner.account.domain.operations.*
 import club.pigplan.piggyplanner.account.infrastructure.repository.*
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component

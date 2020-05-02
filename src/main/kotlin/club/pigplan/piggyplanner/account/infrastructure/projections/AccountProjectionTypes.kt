@@ -1,4 +1,4 @@
-package club.pigplan.piggyplanner.account.infrastructure.repository
+package club.pigplan.piggyplanner.account.infrastructure.projections
 
 import club.pigplan.piggyplanner.account.domain.model.RecordType
 import org.springframework.data.mongodb.core.mapping.Document
