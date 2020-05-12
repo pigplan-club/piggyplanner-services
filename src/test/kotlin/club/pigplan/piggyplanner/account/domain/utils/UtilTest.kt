@@ -1,9 +1,6 @@
-package club.pigplan.piggyplanner.account.domain.model.utils
+package club.pigplan.piggyplanner.account.domain.utils
 
-import club.pigplan.piggyplanner.account.domain.CategoryCreated
-import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
-import club.pigplan.piggyplanner.account.domain.CreateRecord
-import club.pigplan.piggyplanner.account.domain.DefaultAccountCreated
+import club.pigplan.piggyplanner.account.domain.*
 import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import club.pigplan.piggyplanner.account.domain.model.*
 import java.math.BigDecimal
@@ -31,8 +28,8 @@ class UtilTest {
                     categoryItemsQuota!!)
         }
 
-        fun generateCreateRecordCommand(record: Record): CreateRecord {
-            return CreateRecord(
+        fun generateCreateRecordCommand(record: Record): CreateRecordCommand {
+            return CreateRecordCommand(
                     accountId = AccountId(accountId),
                     recordId = record.recordId,
                     recordType = record.type,

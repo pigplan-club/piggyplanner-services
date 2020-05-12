@@ -13,10 +13,9 @@ data class CategoryItemId(val id: UUID)
 
 data class RecordId(val id: UUID)
 
-data class RecordAmount(val value: BigDecimal){
+data class RecordAmount(val value: BigDecimal) {
     init {
-        if (value <= BigDecimal.ZERO) {
+        if (value <= BigDecimal.ZERO)
             throw AmountInvalidException()
-        }
     }
 }

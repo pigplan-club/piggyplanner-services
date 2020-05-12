@@ -1,12 +1,7 @@
-package club.pigplan.piggyplanner.account.domain.model
+package club.pigplan.piggyplanner.account.domain
 
-import club.pigplan.piggyplanner.account.domain.CreateRecord
-import club.pigplan.piggyplanner.account.domain.DeleteRecord
-import club.pigplan.piggyplanner.account.domain.ModifyRecord
-import club.pigplan.piggyplanner.account.domain.RecordCreated
-import club.pigplan.piggyplanner.account.domain.RecordDeleted
-import club.pigplan.piggyplanner.account.domain.RecordModified
-import club.pigplan.piggyplanner.account.domain.model.utils.UtilTest
+import club.pigplan.piggyplanner.account.domain.model.*
+import club.pigplan.piggyplanner.account.domain.utils.UtilTest
 import org.axonframework.modelling.command.AggregateNotFoundException
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -69,7 +64,7 @@ class RecordTest {
                 amount = RecordAmount(BigDecimal.TEN),
                 memo = NEW_MEMO)
 
-        val modifyRecordCommand = ModifyRecord(
+        val modifyRecordCommand = ModifyRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = recordModified.recordId,
                 recordType = recordModified.type,
@@ -93,7 +88,7 @@ class RecordTest {
     @Test
     internal fun `Delete an existing Record should be correct`() {
         val record = UtilTest.createRecordForTest(false)
-        val deleteRecordCommand = DeleteRecord(
+        val deleteRecordCommand = DeleteRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = record.recordId)
 
@@ -122,7 +117,7 @@ class RecordTest {
     internal fun `Create a duplicated record should throw RecordAlreadyAddedException`() {
         val record = UtilTest.createRecordForTest(false)
 
-        val createNewRecordCommand = CreateRecord(
+        val createNewRecordCommand = CreateRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = record.recordId,
                 recordType = RecordType.EXPENSE,
@@ -165,7 +160,7 @@ class RecordTest {
 
 
         val newRecordId = UUID.randomUUID()
-        val modifyRecordCommand = ModifyRecord(
+        val modifyRecordCommand = ModifyRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = RecordId(newRecordId),
                 recordType = recordModified.type,
@@ -196,7 +191,7 @@ class RecordTest {
                 amount = RecordAmount(BigDecimal.TEN),
                 memo = NEW_MEMO)
 
-        val modifyRecordCommand = ModifyRecord(
+        val modifyRecordCommand = ModifyRecordCommand(
                 accountId = AccountId(UUID.randomUUID()),
                 recordId = recordModified.recordId,
                 recordType = recordModified.type,
@@ -223,7 +218,7 @@ class RecordTest {
         val record = UtilTest.createRecordForTest(false)
 
         val newRecordId = UUID.randomUUID()
-        val deleteRecordCommand = DeleteRecord(
+        val deleteRecordCommand = DeleteRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = RecordId(newRecordId))
 
@@ -240,7 +235,7 @@ class RecordTest {
     internal fun `Delete a Record with non existing Account should throw AssertionError`() {
         val record = UtilTest.createRecordForTest(false)
 
-        val deleteRecordCommand = DeleteRecord(
+        val deleteRecordCommand = DeleteRecordCommand(
                 accountId = AccountId(UUID.randomUUID()),
                 recordId = record.recordId)
 
@@ -270,7 +265,7 @@ class RecordTest {
     @Test
     internal fun `Create a Record with non existing Category Item should throw CategoryItemNotFoundException`() {
         val newCategoryItemId = CategoryItemId(UUID.randomUUID())
-        val createRecordCommand = CreateRecord(
+        val createRecordCommand = CreateRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = RecordId(UUID.randomUUID()),
                 recordType = RecordType.EXPENSE,
@@ -298,7 +293,7 @@ class RecordTest {
                 amount = RecordAmount(BigDecimal.TEN),
                 memo = NEW_MEMO)
 
-        val modifyRecordCommand = ModifyRecord(
+        val modifyRecordCommand = ModifyRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = recordModified.recordId,
                 recordType = recordModified.type,
@@ -328,7 +323,7 @@ class RecordTest {
                 memo = NEW_MEMO)
 
         val newCategoryItemId = CategoryItemId(UUID.randomUUID())
-        val modifyRecordCommand = ModifyRecord(
+        val modifyRecordCommand = ModifyRecordCommand(
                 accountId = AccountId(UtilTest.accountId),
                 recordId = recordModified.recordId,
                 recordType = recordModified.type,

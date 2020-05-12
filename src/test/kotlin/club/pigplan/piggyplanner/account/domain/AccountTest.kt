@@ -1,7 +1,7 @@
-package club.pigplan.piggyplanner.account.domain.model
+package club.pigplan.piggyplanner.account.domain
 
-import club.pigplan.piggyplanner.account.domain.CreateDefaultAccount
-import club.pigplan.piggyplanner.account.domain.DefaultAccountCreated
+import club.pigplan.piggyplanner.account.domain.model.Account
+import club.pigplan.piggyplanner.account.domain.model.UserId
 import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -23,7 +23,7 @@ class AccountTest {
     @Test
     internal fun `Create a default Account should be correct`() {
         val userId = UUID.randomUUID()
-        val createDefaultAccountCommand = CreateDefaultAccount(UserId(userId))
+        val createDefaultAccountCommand = CreateDefaultAccountCommand(UserId(userId))
 
         fixture.registerInjectableResource(configurationProperties)
                 .givenNoPriorActivity()

@@ -1,10 +1,7 @@
-package club.pigplan.piggyplanner.account.domain.model
+package club.pigplan.piggyplanner.account.domain
 
-import club.pigplan.piggyplanner.account.domain.model.utils.UtilTest
-import club.pigplan.piggyplanner.account.domain.CategoryCreated
-import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
-import club.pigplan.piggyplanner.account.domain.CreateCategory
-import club.pigplan.piggyplanner.account.domain.CreateCategoryItem
+import club.pigplan.piggyplanner.account.domain.model.*
+import club.pigplan.piggyplanner.account.domain.utils.UtilTest
 import org.axonframework.modelling.command.AggregateNotFoundException
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -25,7 +22,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a Category should be correct`() {
-        val createCategoryCommand = CreateCategory(
+        val createCategoryCommand = CreateCategoryCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = UtilTest.category.categoryId,
                 name = UtilTest.category.name)
@@ -40,7 +37,7 @@ class CategoryTest {
     @Test
     internal fun `Create a Category Item should be correct`() {
         val category = Category(CategoryId(UUID.randomUUID()), "Utility")
-        val createCategoryItemCommand = CreateCategoryItem(
+        val createCategoryItemCommand = CreateCategoryItemCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = category.categoryId,
                 categoryItemId = UtilTest.categoryItem.categoryItemId,
@@ -58,7 +55,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a duplicated Category should throw CategoryAlreadyAddedException`() {
-        val createCategoryCommand = CreateCategory(
+        val createCategoryCommand = CreateCategoryCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = UtilTest.category.categoryId,
                 name = UtilTest.category.name)
@@ -72,7 +69,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a duplicated Category Item should throw CategoryItemAlreadyAddedException`() {
-        val createCategoryItemCommand = CreateCategoryItem(
+        val createCategoryItemCommand = CreateCategoryItemCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = UtilTest.category.categoryId,
                 categoryItemId = UtilTest.categoryItem.categoryItemId,
@@ -88,7 +85,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a Category with non existing Account should throw AggregateNotFoundException`() {
-        val createCategoryCommand = CreateCategory(
+        val createCategoryCommand = CreateCategoryCommand(
                 accountId = AccountId(UUID.randomUUID()),
                 categoryId = UtilTest.category.categoryId,
                 name = UtilTest.category.name)
@@ -100,7 +97,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a Category Item with non existing Account shuld throw AssertionError`() {
-        val createCategoryItemCommand = CreateCategoryItem(
+        val createCategoryItemCommand = CreateCategoryItemCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = UtilTest.category.categoryId,
                 categoryItemId = UtilTest.categoryItem.categoryItemId,
@@ -119,7 +116,7 @@ class CategoryTest {
     @Test
     internal fun `Create a Category Item with non existing Category should throw CategoryNotFoundException`() {
         val newCategoryIdUUID = UUID.randomUUID()
-        val createCategoryItemCommand = CreateCategoryItem(
+        val createCategoryItemCommand = CreateCategoryItemCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = CategoryId(newCategoryIdUUID),
                 categoryItemId = UtilTest.categoryItem.categoryItemId,
@@ -134,7 +131,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a Category exceeding quota should throw CategoriesQuotaExceededException`() {
-        val createCategoryCommand = CreateCategory(
+        val createCategoryCommand = CreateCategoryCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = CategoryId(UUID.randomUUID()),
                 name = "New Category")
@@ -148,7 +145,7 @@ class CategoryTest {
 
     @Test
     internal fun `Create a Category Item exceeding quota should throw CategoryItemsQuotaExceededException`() {
-        val createCategoryItemCommand = CreateCategoryItem(
+        val createCategoryItemCommand = CreateCategoryItemCommand(
                 accountId = AccountId(UtilTest.accountId),
                 categoryId = UtilTest.category.categoryId,
                 categoryItemId = CategoryItemId(UUID.randomUUID()),

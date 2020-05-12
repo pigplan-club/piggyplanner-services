@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration
 const val ACCOUNT_SNAPSHOT_THRESHOLD = 300
 
 @Configuration
-class AccountConfigurations {
+class Snapshots {
 
     @Bean
     fun accountSnapshotTriggerDefinition(snapshotter: Snapshotter) =

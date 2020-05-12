@@ -31,7 +31,7 @@ class Account() : Entity() {
     private val categories = mutableSetOf<Category>()
 
     @CommandHandler
-    constructor(command: CreateDefaultAccount, configurationProperties: ConfigurationProperties) : this() {
+    constructor(command: CreateDefaultAccountCommand, configurationProperties: ConfigurationProperties) : this() {
         AggregateLifecycle.apply(DefaultAccountCreated(
                 command.accountId,
                 command.userId,
@@ -45,7 +45,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: CreateCategory): Boolean {
+    fun handle(command: CreateCategoryCommand): Boolean {
         if (categories.filter { it.state == EntityState.ENABLED }.size >= this.categoriesQuota)
             throw CategoriesQuotaExceededException()
 
@@ -58,7 +58,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: CreateCategoryItem): Boolean {
+    fun handle(command: CreateCategoryItemCommand): Boolean {
         val category = categories.find { category -> category.categoryId == command.categoryId }
                 ?: throw CategoryNotFoundException(command.categoryId.id)
 
@@ -76,7 +76,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: CreateRecord): Boolean {
+    fun handle(command: CreateRecordCommand): Boolean {
         if (numberRecordsForSelectedMonth(command.date) >= recordsQuotaByMonth)
             throw RecordsQuotaExceededException()
 
@@ -101,7 +101,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: ModifyRecord): Boolean {
+    fun handle(command: ModifyRecordCommand): Boolean {
         if (records.find { record -> record.recordId == command.recordId } == null)
             throw RecordNotFoundException(command.recordId.id)
 
@@ -123,7 +123,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: DeleteRecord): Boolean {
+    fun handle(command: DeleteRecordCommand): Boolean {
         if (records.find { record -> record.recordId == command.recordId } == null)
             throw RecordNotFoundException(command.recordId.id)
 

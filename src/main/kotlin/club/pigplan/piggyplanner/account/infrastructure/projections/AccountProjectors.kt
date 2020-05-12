@@ -2,7 +2,10 @@ package club.pigplan.piggyplanner.account.infrastructure.projections
 
 import club.pigplan.piggyplanner.account.domain.*
 import club.pigplan.piggyplanner.account.domain.model.CategoryItem
-import club.pigplan.piggyplanner.account.infrastructure.repository.*
+import club.pigplan.piggyplanner.account.infrastructure.repository.AccountStore
+import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryItemStore
+import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryStore
+import club.pigplan.piggyplanner.account.infrastructure.repository.RecordStore
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 

@@ -30,6 +30,9 @@ dependencies {
     //Spring boot webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    //Spring security
+//    implementation("org.springframework.boot:spring-boot-starter-security")
+
     //Mongo DB
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
@@ -52,6 +55,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+//    testImplementation("org.springframework.security:spring-security-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.shazam:shazamcrest:0.11")
 
