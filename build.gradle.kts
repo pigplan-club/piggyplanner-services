@@ -7,8 +7,8 @@ plugins {
     id("com.google.cloud.tools.jib") version "2.2.0"
     id("info.solidsoft.pitest") version "1.4.7"
     id("org.sonarqube") version "2.8"
-    kotlin("jvm") version "1.3.71"
-    kotlin("plugin.spring") version "1.3.71"
+    kotlin("jvm") version "1.3.72"
+    kotlin("plugin.spring") version "1.3.72"
     jacoco
 }
 

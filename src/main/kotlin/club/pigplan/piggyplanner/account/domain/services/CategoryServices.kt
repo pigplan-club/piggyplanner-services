@@ -7,8 +7,8 @@ import club.pigplan.piggyplanner.account.domain.model.CategoryItemId
 import java.util.*
 
 
-fun getDefaultCategories(): List<Category> =
-        DefaultCategories.values().map { createDefaultCategory(it) }
+fun getDefaultCategories(): Set<Category> =
+        DefaultCategories.values().map { createDefaultCategory(it) }.toSet()
 
 private fun createDefaultCategory(defaultCategory: DefaultCategories): Category {
     val category = Category(CategoryId(UUID.randomUUID()), defaultCategory.name)

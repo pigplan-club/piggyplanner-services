@@ -2,28 +2,28 @@ package club.pigplan.piggyplanner.account.infrastructure.projections
 
 import club.pigplan.piggyplanner.account.domain.*
 import club.pigplan.piggyplanner.account.domain.model.CategoryItem
-import club.pigplan.piggyplanner.account.infrastructure.repository.AccountStore
-import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryItemStore
-import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryStore
-import club.pigplan.piggyplanner.account.infrastructure.repository.RecordStore
+import club.pigplan.piggyplanner.account.infrastructure.repository.AccountRepo
+import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryItemRepo
+import club.pigplan.piggyplanner.account.infrastructure.repository.CategoryRepo
+import club.pigplan.piggyplanner.account.infrastructure.repository.RecordRepo
 import org.axonframework.eventhandling.EventHandler
 import org.springframework.stereotype.Component
 
 @Component
-class AccountProjector(private val accountStore: AccountStore,
-                       private val categoryStore: CategoryStore,
-                       private val categoryItemStore: CategoryItemStore,
-                       private val recordStore: RecordStore) {
+class AccountProjector(private val accountRepo: AccountRepo,
+                       private val categoryRepo: CategoryRepo,
+                       private val categoryItemRepo: CategoryItemRepo,
+                       private val recordRepo: RecordRepo) {
 
     @EventHandler
-    fun on(event: DefaultAccountCreated) {
+    fun on(event: NewAccountCreated) {
         val accountProjection = AccountProjection(
                 event.accountId.id,
                 event.accountName,
-                event.userId.id,
+                event.saverId.id,
                 listOf()
         )
-        accountStore.save(accountProjection)
+        accountRepo.save(accountProjection)
     }
 
     @EventHandler
@@ -34,7 +34,7 @@ class AccountProjector(private val accountStore: AccountStore,
                 event.category.name,
                 toCategoryItemProjections(event.category.categoryItems)
         )
-        categoryStore.save(categoryProjection)
+        categoryRepo.save(categoryProjection)
     }
 
     @EventHandler
@@ -43,7 +43,7 @@ class AccountProjector(private val accountStore: AccountStore,
                 event.categoryItem.categoryItemId.id,
                 event.categoryItem.name
         )
-        categoryItemStore.save(categoryItemProjection)
+        categoryItemRepo.save(categoryItemProjection)
     }
 
     @EventHandler
@@ -58,7 +58,7 @@ class AccountProjector(private val accountStore: AccountStore,
                 event.record.amount.value,
                 event.record.memo
         )
-        recordStore.save(recordProjection)
+        recordRepo.save(recordProjection)
     }
 
     @EventHandler
@@ -73,12 +73,12 @@ class AccountProjector(private val accountStore: AccountStore,
                 event.record.amount.value,
                 event.record.memo
         )
-        recordStore.save(recordProjection)
+        recordRepo.save(recordProjection)
     }
 
     @EventHandler
     fun on(event: RecordDeleted) {
-        recordStore.deleteById(event.recordId.id)
+        recordRepo.deleteById(event.recordId.id)
     }
 
     private fun toCategoryItem(categoryItem: CategoryItem): CategoryItemProjection =

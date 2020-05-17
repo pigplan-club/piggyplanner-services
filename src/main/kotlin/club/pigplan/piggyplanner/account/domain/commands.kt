@@ -7,9 +7,9 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
 
-data class CreateDefaultAccountCommand(@TargetAggregateIdentifier val userId: UserId) {
+data class CreateDefaultAccountCommand(@TargetAggregateIdentifier val saverId: SaverId) {
     val accountId: AccountId = AccountId(UUID.randomUUID())
-    val categories: List<Category> = getDefaultCategories()
+    val categories: Set<Category> = getDefaultCategories()
 }
 
 data class CreateCategoryCommand(@TargetAggregateIdentifier val accountId: AccountId,

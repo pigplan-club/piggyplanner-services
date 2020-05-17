@@ -4,14 +4,14 @@ import java.util.*
 
 data class UserId(val id: UUID)
 
-data class Username(val username: String){
+data class Username(val username: String) {
     init {
         if (username.isEmpty())
             throw UsernameInvalidException()
     }
 }
 
-data class Password(val password: String){
+data class Password(val password: String) {
     init {
         if (password.isEmpty())
             throw PasswordInvalidException()

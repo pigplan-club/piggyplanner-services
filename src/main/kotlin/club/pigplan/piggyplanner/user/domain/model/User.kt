@@ -1,7 +1,8 @@
 package club.pigplan.piggyplanner.user.domain.model
 
 import club.pigplan.piggyplanner.common.domain.model.Entity
-import club.pigplan.piggyplanner.user.domain.*
+import club.pigplan.piggyplanner.user.domain.CreateRegisteredUserCommand
+import club.pigplan.piggyplanner.user.domain.RegisteredUserCreated
 import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier

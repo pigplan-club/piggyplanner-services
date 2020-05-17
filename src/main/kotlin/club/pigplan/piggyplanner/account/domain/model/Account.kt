@@ -1,7 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
 import club.pigplan.piggyplanner.account.domain.*
-import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
 import org.axonframework.commandhandling.CommandHandler
@@ -17,7 +16,7 @@ class Account() : Entity() {
 
     @AggregateIdentifier
     private lateinit var accountId: AccountId
-    private lateinit var userId: UserId
+    private lateinit var saverId: SaverId
     private lateinit var name: String
 
     private var recordsQuotaByMonth: Int = -1
@@ -30,18 +29,14 @@ class Account() : Entity() {
     @AggregateMember
     private val categories = mutableSetOf<Category>()
 
-    @CommandHandler
-    constructor(command: CreateDefaultAccountCommand, configurationProperties: ConfigurationProperties) : this() {
-        AggregateLifecycle.apply(DefaultAccountCreated(
-                command.accountId,
-                command.userId,
-                configurationProperties.defaultAccountName,
-                configurationProperties.recordsQuotaByMonth,
-                configurationProperties.categoriesQuota,
-                configurationProperties.categoryItemsQuota)
+    constructor(accountId: AccountId, saverId: SaverId, categories: Set<Category>, accountName: String,
+                recordsQuotaByMonth: Int, categoriesQuota: Int, categoryItemsQuota: Int) : this() {
+
+        AggregateLifecycle.apply(NewAccountCreated(
+                accountId, saverId, accountName, recordsQuotaByMonth, categoriesQuota, categoryItemsQuota)
         )
 
-        command.categories.forEach { AggregateLifecycle.apply(CategoryCreated(command.accountId, it)) }
+        categories.forEach { AggregateLifecycle.apply(CategoryCreated(accountId, it)) }
     }
 
     @CommandHandler
@@ -134,9 +129,9 @@ class Account() : Entity() {
     }
 
     @EventSourcingHandler
-    fun on(event: DefaultAccountCreated) {
+    fun on(event: NewAccountCreated) {
         this.accountId = event.accountId
-        this.userId = event.userId
+        this.saverId = event.saverId
         this.name = event.accountName
         this.recordsQuotaByMonth = event.recordsQuotaByMonth
         this.categoriesQuota = event.categoriesQuota

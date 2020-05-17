@@ -22,7 +22,7 @@ class UtilTest {
                 categoriesQuota: Int? = accountConfigProperties.categoriesQuota,
                 categoryItemsQuota: Int? = accountConfigProperties.categoryItemsQuota
         ): DefaultAccountCreated {
-            return DefaultAccountCreated(AccountId(accountId), UserId(userId), accountConfigProperties.defaultAccountName,
+            return DefaultAccountCreated(AccountId(accountId), SaverId(userId), accountConfigProperties.defaultAccountName,
                     newRecordsQuotaByMonth!!,
                     categoriesQuota!!,
                     categoryItemsQuota!!)

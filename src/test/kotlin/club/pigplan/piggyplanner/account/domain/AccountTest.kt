@@ -1,7 +1,7 @@
 package club.pigplan.piggyplanner.account.domain
 
 import club.pigplan.piggyplanner.account.domain.model.Account
-import club.pigplan.piggyplanner.account.domain.model.UserId
+import club.pigplan.piggyplanner.account.domain.model.SaverId
 import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
@@ -23,7 +23,7 @@ class AccountTest {
     @Test
     internal fun `Create a default Account should be correct`() {
         val userId = UUID.randomUUID()
-        val createDefaultAccountCommand = CreateDefaultAccountCommand(UserId(userId))
+        val createDefaultAccountCommand = CreateDefaultAccountCommand(SaverId(userId))
 
         fixture.registerInjectableResource(configurationProperties)
                 .givenNoPriorActivity()
@@ -32,7 +32,7 @@ class AccountTest {
                 .expectEventsMatching(Matchers.payloadsMatching(Matchers.exactSequenceOf(
                         com.shazam.shazamcrest.matcher.Matchers.sameBeanAs(
                                 DefaultAccountCreated(createDefaultAccountCommand.accountId,
-                                        UserId(userId),
+                                        SaverId(userId),
                                         configurationProperties.defaultAccountName,
                                         configurationProperties.recordsQuotaByMonth,
                                         configurationProperties.categoriesQuota,

@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.*
+import club.pigplan.piggyplanner.account.domain.RecordModified
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.EntityId

@@ -5,12 +5,17 @@ import club.pigplan.piggyplanner.account.infrastructure.projections.CategoryItem
 import club.pigplan.piggyplanner.account.infrastructure.projections.CategoryProjection
 import club.pigplan.piggyplanner.account.infrastructure.projections.RecordProjection
 import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 import java.util.*
 
-interface AccountStore : CrudRepository<AccountProjection, UUID>
+@Repository
+interface AccountRepo : CrudRepository<AccountProjection, UUID>
 
-interface RecordStore : CrudRepository<RecordProjection, UUID>
+@Repository
+interface RecordRepo : CrudRepository<RecordProjection, UUID>
 
-interface CategoryStore : CrudRepository<CategoryProjection, UUID>
+@Repository
+interface CategoryRepo : CrudRepository<CategoryProjection, UUID>
 
-interface CategoryItemStore : CrudRepository<CategoryItemProjection, UUID>
+@Repository
+interface CategoryItemRepo : CrudRepository<CategoryItemProjection, UUID>

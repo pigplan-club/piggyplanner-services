@@ -4,12 +4,16 @@ import club.pigplan.piggyplanner.account.domain.model.*
 import org.axonframework.serialization.Revision
 
 @Revision("1.0")
-data class DefaultAccountCreated(val accountId: AccountId,
-                                 val userId: UserId,
-                                 val accountName: String,
-                                 val recordsQuotaByMonth: Int,
-                                 val categoriesQuota: Int,
-                                 val categoryItemsQuota: Int)
+data class DefaultAccountCreated(val saverId: SaverId,
+                                 val accountId: AccountId)
+
+@Revision("1.0")
+data class NewAccountCreated(val accountId: AccountId,
+                             val saverId: SaverId,
+                             val accountName: String,
+                             val recordsQuotaByMonth: Int,
+                             val categoriesQuota: Int,
+                             val categoryItemsQuota: Int)
 
 @Revision("1.0")
 data class CategoryCreated(val accountId: AccountId,
