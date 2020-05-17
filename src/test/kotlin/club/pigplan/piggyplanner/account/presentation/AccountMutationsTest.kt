@@ -27,16 +27,6 @@ internal class AccountMutationsTest {
     private lateinit var accountMutations: AccountMutations
 
     @Test
-    fun `Create a default Account should be correct`() {
-        val future = createCompletableFuture()
-        future.complete(AccountId(UUID.randomUUID()))
-
-        val response = accountMutations.createDefaultAccount()
-        assertNotNull("Expected AccountId not null", response.get().id)
-        assertEquals("Expected response id equal to the mocked value", response.get(), future.get())
-    }
-
-    @Test
     fun createRecord() {
         val future = createCompletableFuture()
         future.complete(true)
