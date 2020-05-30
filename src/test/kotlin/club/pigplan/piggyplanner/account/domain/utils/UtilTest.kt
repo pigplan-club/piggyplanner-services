@@ -1,8 +1,11 @@
 package club.pigplan.piggyplanner.account.domain.utils
 
-import club.pigplan.piggyplanner.account.domain.*
-import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
+import club.pigplan.piggyplanner.account.domain.AccountCreated
+import club.pigplan.piggyplanner.account.domain.CategoryCreated
+import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
+import club.pigplan.piggyplanner.account.domain.CreateRecordCommand
 import club.pigplan.piggyplanner.account.domain.model.*
+import club.pigplan.piggyplanner.account.infrastructure.config.ConfigurationProperties
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
@@ -21,8 +24,8 @@ class UtilTest {
                 newRecordsQuotaByMonth: Int? = accountConfigProperties.recordsQuotaByMonth,
                 categoriesQuota: Int? = accountConfigProperties.categoriesQuota,
                 categoryItemsQuota: Int? = accountConfigProperties.categoryItemsQuota
-        ): NewAccountCreated {
-            return NewAccountCreated(AccountId(accountId), SaverId(userId), accountConfigProperties.defaultAccountName,
+        ): AccountCreated {
+            return AccountCreated(AccountId(accountId), SaverId(userId), accountConfigProperties.defaultAccountName,
                     newRecordsQuotaByMonth!!,
                     categoriesQuota!!,
                     categoryItemsQuota!!)

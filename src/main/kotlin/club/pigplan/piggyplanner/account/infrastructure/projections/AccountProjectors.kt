@@ -16,7 +16,7 @@ class AccountProjector(private val accountRepo: AccountRepo,
                        private val recordRepo: RecordRepo) {
 
     @EventHandler
-    fun on(event: NewAccountCreated) {
+    fun on(event: AccountCreated) {
         val accountProjection = AccountProjection(
                 event.accountId.id,
                 event.accountName,

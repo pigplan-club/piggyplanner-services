@@ -29,10 +29,11 @@ class Account() : Entity() {
     @AggregateMember
     private val categories = mutableSetOf<Category>()
 
-    constructor(accountId: AccountId, saverId: SaverId, categories: Set<Category>, accountName: String,
-                recordsQuotaByMonth: Int, categoriesQuota: Int, categoryItemsQuota: Int) : this() {
+    constructor(accountId: AccountId, saverId: SaverId, categories: Set<Category>,
+                accountName: String, recordsQuotaByMonth: Int, categoriesQuota: Int,
+                categoryItemsQuota: Int) : this() {
 
-        AggregateLifecycle.apply(NewAccountCreated(
+        AggregateLifecycle.apply(AccountCreated(
                 accountId, saverId, accountName, recordsQuotaByMonth, categoriesQuota, categoryItemsQuota)
         )
 
@@ -57,7 +58,7 @@ class Account() : Entity() {
         val category = categories.find { category -> category.categoryId == command.categoryId }
                 ?: throw CategoryNotFoundException(command.categoryId.id)
 
-        if (category.wasExceededQuota(this.categoryItemsQuota))
+        if (category.wasCategoryItemExceededQuota(this.categoryItemsQuota))
             throw CategoryItemsQuotaExceededException()
 
         val newCategoryItem = CategoryItem(command.categoryItemId, command.name)
@@ -129,7 +130,7 @@ class Account() : Entity() {
     }
 
     @EventSourcingHandler
-    fun on(event: NewAccountCreated) {
+    private fun on(event: AccountCreated) {
         this.accountId = event.accountId
         this.saverId = event.saverId
         this.name = event.accountName
@@ -139,17 +140,17 @@ class Account() : Entity() {
     }
 
     @EventSourcingHandler
-    fun on(event: CategoryCreated) {
+    private fun on(event: CategoryCreated) {
         this.categories.add(event.category)
     }
 
     @EventSourcingHandler
-    fun on(event: RecordCreated) {
+    private fun on(event: RecordCreated) {
         this.records.add(event.record)
     }
 
     @EventSourcingHandler
-    fun on(event: RecordDeleted) {
+    private fun on(event: RecordDeleted) {
         this.records.remove(
                 Record(event.recordId)
         )

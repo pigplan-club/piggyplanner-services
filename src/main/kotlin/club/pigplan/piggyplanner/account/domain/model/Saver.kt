@@ -8,7 +8,6 @@ import org.axonframework.commandhandling.CommandHandler
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.AggregateIdentifier
 import org.axonframework.modelling.command.AggregateLifecycle
-import org.axonframework.modelling.command.AggregateLifecycle.createNew
 import org.axonframework.modelling.command.AggregateMember
 import org.axonframework.spring.stereotype.Aggregate
 
@@ -22,8 +21,10 @@ class Saver() : Entity() {
     private val accounts = mutableSetOf<AccountId>()
 
     @CommandHandler
-    constructor(command: CreateDefaultAccountCommand, configurationProperties: ConfigurationProperties) : this() {
-        createNew(Account::class.java) {
+    constructor(command: CreateDefaultAccountCommand,
+                configurationProperties: ConfigurationProperties) : this() {
+
+        AggregateLifecycle.createNew(Account::class.java) {
             Account(command.accountId,
                     command.saverId,
                     command.categories,

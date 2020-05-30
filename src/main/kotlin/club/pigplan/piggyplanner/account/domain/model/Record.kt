@@ -54,6 +54,4 @@ class Record(@EntityId val recordId: RecordId) : Entity() {
     override fun hashCode(): Int {
         return recordId.hashCode()
     }
-
-
 }

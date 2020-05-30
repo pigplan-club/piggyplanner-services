@@ -8,12 +8,12 @@ data class DefaultAccountCreated(val saverId: SaverId,
                                  val accountId: AccountId)
 
 @Revision("1.0")
-data class NewAccountCreated(val accountId: AccountId,
-                             val saverId: SaverId,
-                             val accountName: String,
-                             val recordsQuotaByMonth: Int,
-                             val categoriesQuota: Int,
-                             val categoryItemsQuota: Int)
+data class AccountCreated(val accountId: AccountId,
+                          val saverId: SaverId,
+                          val accountName: String,
+                          val recordsQuotaByMonth: Int,
+                          val categoriesQuota: Int,
+                          val categoryItemsQuota: Int)
 
 @Revision("1.0")
 data class CategoryCreated(val accountId: AccountId,

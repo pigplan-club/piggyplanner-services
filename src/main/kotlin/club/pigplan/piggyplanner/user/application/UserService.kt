@@ -8,7 +8,7 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @Service
-class CreateRegisteredUser(private val commandGateway: CommandGateway) {
+class UserService(private val commandGateway: CommandGateway) {
 
     fun create(username: String, password: String): CompletableFuture<UserId> {
         //TODO: validate if username already exists

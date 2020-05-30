@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
 
-class AccountTest {
+class SaverTest {
     private lateinit var fixture: FixtureConfiguration<Account>
     lateinit var configurationProperties: ConfigurationProperties
 
@@ -20,7 +20,6 @@ class AccountTest {
         fixture = AggregateTestFixture(Account::class.java)
     }
 
-    //TODO: move this to Saver
 //    @Test
 //    internal fun `Create a default Account should be correct`() {
 //        val userId = UUID.randomUUID()
@@ -32,7 +31,7 @@ class AccountTest {
 //                .expectSuccessfulHandlerExecution()
 //                .expectEventsMatching(Matchers.payloadsMatching(Matchers.exactSequenceOf(
 //                        com.shazam.shazamcrest.matcher.Matchers.sameBeanAs(
-//                                NewAccountCreated(createDefaultAccountCommand.accountId,
+//                                AccountCreated(createDefaultAccountCommand.accountId,
 //                                        SaverId(userId),
 //                                        configurationProperties.defaultAccountName,
 //                                        configurationProperties.recordsQuotaByMonth,

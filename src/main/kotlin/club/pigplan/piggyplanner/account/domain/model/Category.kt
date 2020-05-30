@@ -25,7 +25,7 @@ class Category(@EntityId val categoryId: CategoryId) : Entity() {
         this.categoryItems.add(categoryItem)
     }
 
-    fun wasExceededQuota(categoryItemsQuota: Int) =
+    fun wasCategoryItemExceededQuota(categoryItemsQuota: Int) =
             this.categoryItems.filter { it.state == EntityState.ENABLED }.size >= categoryItemsQuota
 
     fun getCategoryItem(categoryItemIdToFind: CategoryItemId) =

@@ -11,7 +11,7 @@ enum class DefaultCategoriesItems {
     DINNER
 }
 
-enum class DefaultCategories(val categoryItems: List<DefaultCategoriesItems>) {
-    UTILITY(mutableListOf(ELECTRICITY, WATER, GAS)),
-    FOOD(mutableListOf(BREAKFAST, LUNCH, DINNER))
+enum class DefaultCategories(val categoryItems: Set<DefaultCategoriesItems>) {
+    UTILITY(mutableSetOf(ELECTRICITY, WATER, GAS)),
+    FOOD(mutableSetOf(BREAKFAST, LUNCH, DINNER))
 }

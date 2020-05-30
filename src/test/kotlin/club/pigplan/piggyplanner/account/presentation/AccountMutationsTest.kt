@@ -1,7 +1,6 @@
 package club.pigplan.piggyplanner.account.presentation
 
 import club.pigplan.piggyplanner.account.application.RecordDTO
-import club.pigplan.piggyplanner.account.domain.model.AccountId
 import club.pigplan.piggyplanner.account.domain.model.RecordType
 import club.pigplan.piggyplanner.account.presentation.graphql.AccountMutations
 import org.axonframework.commandhandling.gateway.CommandGateway
