@@ -16,9 +16,27 @@ spring:
       port: 27017
       username: admin
 
+server:
+  port: 8181
+
 graphql:
   packages:
     - "club.pigplan.piggyplanner"
 
-server:
-  port: 8181
+#Metrics related configurations
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}

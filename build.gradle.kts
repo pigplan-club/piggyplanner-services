@@ -2,7 +2,7 @@ import info.solidsoft.gradle.pitest.PitestTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.2.6.RELEASE"
+    id("org.springframework.boot") version "2.2.7.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("com.google.cloud.tools.jib") version "2.2.0"
     id("info.solidsoft.pitest") version "1.4.7"
@@ -33,6 +33,13 @@ dependencies {
     //Spring security
 //    implementation("org.springframework.boot:spring-boot-starter-security")
 
+    //Spring actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    //Micrometer for prometheus
+    implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
     //Mongo DB
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
@@ -44,8 +51,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     //Axon framework
-    implementation("org.axonframework:axon-spring-boot-starter:4.3.1")
-    implementation("org.axonframework.extensions.mongo:axon-mongo:4.2")
+    implementation("org.axonframework:axon-spring-boot-starter:4.3.3")
+    implementation("org.axonframework.extensions.mongo:axon-mongo:4.3")
 
     //GraphQL
     implementation("com.expediagroup:graphql-kotlin-spring-server:2.0.0")
