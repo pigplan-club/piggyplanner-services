@@ -1,9 +1,6 @@
 package club.pigplan.piggyplanner.common.infrastructure.config
 
 import com.mongodb.MongoClient
-import org.axonframework.commandhandling.CommandBus
-import org.axonframework.commandhandling.CommandMessage
-import org.axonframework.commandhandling.SimpleCommandBus
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.EventMessage
 import org.axonframework.eventhandling.tokenstore.TokenStore
@@ -37,13 +34,6 @@ class AxonConfig {
                     .build()
 
     @Bean
-    fun configureCommandBus(): CommandBus? {
-        val commandBus: CommandBus = SimpleCommandBus.builder().build()
-        commandBus.registerDispatchInterceptor(MyCommandDispatchInterceptor())
-        return commandBus
-    }
-
-    @Bean
     @Primary
     fun configureEventBus(eventBus: EventBus): EventBus {
         eventBus.registerDispatchInterceptor(EventLoggingDispatchInterceptor())
@@ -53,21 +43,17 @@ class AxonConfig {
 
 private val logger = LoggerFactory.getLogger(EventLoggingDispatchInterceptor::class.java)
 
-class EventLoggingDispatchInterceptor : MessageDispatchInterceptor<EventMessage<*>?> {
-    override fun handle(
-            messages: List<EventMessage<*>?>): BiFunction<Int, EventMessage<*>?, EventMessage<*>?> {
-        return BiFunction { index: Int?, event: EventMessage<*>? ->
-            logger.info("Event: [{}].", event)
+class EventLoggingDispatchInterceptor : MessageDispatchInterceptor<EventMessage<*>> {
+    override fun handle(messages: List<EventMessage<*>>): BiFunction<Int, EventMessage<*>, EventMessage<*>> {
+        return BiFunction { index: Int, event: EventMessage<*> ->
+            logger.info("Event: index={} metadata={} identifier={} payloadType={} payload={}",
+                    index,
+                    event.metaData,
+                    event.identifier,
+                    event.payloadType,
+                    event.payload
+            )
             event
-        }
-    }
-}
-
-class MyCommandDispatchInterceptor : MessageDispatchInterceptor<CommandMessage<*>?> {
-    override fun handle(messages: List<CommandMessage<*>?>): BiFunction<Int, CommandMessage<*>?, CommandMessage<*>?> {
-        return BiFunction<Int, CommandMessage<*>?, CommandMessage<*>?> { index: Int?, command: CommandMessage<*>? ->
-            logger.info("Command [{}]", command)
-            command
         }
     }
 }
