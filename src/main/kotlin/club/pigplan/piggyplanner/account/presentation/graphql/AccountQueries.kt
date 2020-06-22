@@ -8,7 +8,6 @@ import java.util.*
 @Component
 class AccountQueries : Query {
 
-    //TODO: remove it
     @GraphQLDescription("For testing, remove it after a real query is created")
     fun generateRandomUUID() = UUID.randomUUID()
 }
