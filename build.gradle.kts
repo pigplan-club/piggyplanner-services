@@ -4,9 +4,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.2.7.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    id("com.google.cloud.tools.jib") version "2.2.0"
-    id("info.solidsoft.pitest") version "1.4.7"
-    id("org.sonarqube") version "2.8"
+    id("com.google.cloud.tools.jib") version "2.4.0"
+    id("info.solidsoft.pitest") version "1.5.1"
+    id("org.sonarqube") version "3.0"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     jacoco
@@ -30,9 +30,6 @@ dependencies {
     //Spring boot webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
-    //Spring security
-//    implementation("org.springframework.boot:spring-boot-starter-security")
-
     //Spring actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
@@ -55,14 +52,13 @@ dependencies {
     implementation("org.axonframework.extensions.mongo:axon-mongo:4.3")
 
     //GraphQL
-    implementation("com.expediagroup:graphql-kotlin-spring-server:2.0.0")
-    implementation("com.expediagroup:graphql-kotlin-schema-generator:2.0.0")
+    implementation("com.expediagroup:graphql-kotlin-spring-server:3.2.0")
+    implementation("com.expediagroup:graphql-kotlin-schema-generator:3.2.0")
 
     //Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-//    testImplementation("org.springframework.security:spring-security-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("com.shazam:shazamcrest:0.11")
 
@@ -70,7 +66,7 @@ dependencies {
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 
     //Axon framework testing
-    testImplementation("org.axonframework:axon-test:4.3.1")
+    testImplementation("org.axonframework:axon-test:4.3.3")
 
     //Pitest extension for junit5
     testImplementation("org.pitest:pitest-junit5-plugin:0.12")
