@@ -1,6 +1,12 @@
 import info.solidsoft.gradle.pitest.PitestTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val axonVersion  = "4.3.3"
+val axonMongoVersion  = "4.3"
+val graphqlKotlinVersion = "3.2.0"
+val shazamcrestVersion = "0.11"
+val pitestJunit5Version = "0.12"
+
 plugins {
     id("org.springframework.boot") version "2.2.7.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
@@ -15,6 +21,7 @@ plugins {
 group = "club.piggyplanner"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
 
 configurations {
     compileOnly {
@@ -48,28 +55,28 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     //Axon framework
-    implementation("org.axonframework:axon-spring-boot-starter:4.3.3")
-    implementation("org.axonframework.extensions.mongo:axon-mongo:4.3")
+    implementation("org.axonframework:axon-spring-boot-starter:$axonVersion")
+    implementation("org.axonframework.extensions.mongo:axon-mongo:$axonMongoVersion")
 
     //GraphQL
-    implementation("com.expediagroup:graphql-kotlin-spring-server:3.2.0")
-    implementation("com.expediagroup:graphql-kotlin-schema-generator:3.2.0")
+    implementation("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
+    implementation("com.expediagroup:graphql-kotlin-schema-generator:$graphqlKotlinVersion")
 
     //Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("com.shazam:shazamcrest:0.11")
+    testImplementation("com.shazam:shazamcrest:$shazamcrestVersion")
 
     //Mongo db testing
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 
     //Axon framework testing
-    testImplementation("org.axonframework:axon-test:4.3.3")
+    testImplementation("org.axonframework:axon-test:$axonVersion")
 
     //Pitest extension for junit5
-    testImplementation("org.pitest:pitest-junit5-plugin:0.12")
+    testImplementation("org.pitest:pitest-junit5-plugin:$pitestJunit5Version")
 }
 
 jib {
