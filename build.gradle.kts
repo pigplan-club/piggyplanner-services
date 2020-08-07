@@ -1,14 +1,14 @@
 import info.solidsoft.gradle.pitest.PitestTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val axonVersion  = "4.3.3"
-val axonMongoVersion  = "4.3"
+val axonVersion = "4.4.1"
+val axonExtensionsVersion = "4.4"
 val graphqlKotlinVersion = "3.2.0"
 val shazamcrestVersion = "0.11"
 val pitestJunit5Version = "0.12"
 
 plugins {
-    id("org.springframework.boot") version "2.2.7.RELEASE"
+    id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("com.google.cloud.tools.jib") version "2.4.0"
     id("info.solidsoft.pitest") version "1.5.1"
@@ -56,7 +56,8 @@ dependencies {
 
     //Axon framework
     implementation("org.axonframework:axon-spring-boot-starter:$axonVersion")
-    implementation("org.axonframework.extensions.mongo:axon-mongo:$axonMongoVersion")
+    implementation("org.axonframework:axon-micrometer:$axonVersion")
+    implementation("org.axonframework.extensions.mongo:axon-mongo:$axonExtensionsVersion")
 
     //GraphQL
     implementation("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
@@ -116,7 +117,10 @@ tasks {
         mutators.set(setOf("DEFAULTS"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal", "kotlinx.coroutines"))
 //        targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
-        targetClasses.set(setOf("club.pigplan.piggyplanner.account.domain.*"))
+        targetClasses.set(setOf(
+                "club.pigplan.piggyplanner.account.*",
+                "club.pigplan.piggyplanner.user.*"
+        ))
     }
 
     named("build") {

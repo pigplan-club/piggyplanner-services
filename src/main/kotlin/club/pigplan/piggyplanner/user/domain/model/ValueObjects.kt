@@ -11,7 +11,7 @@ data class Username(val username: String) {
     }
 }
 
-data class Password(val password: String) {
+data class EncryptedPassword(val password: String) {
     init {
         if (password.isEmpty())
             throw PasswordInvalidException()

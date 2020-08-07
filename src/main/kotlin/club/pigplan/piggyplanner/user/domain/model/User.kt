@@ -15,21 +15,21 @@ class User() : Entity() {
     @AggregateIdentifier
     private lateinit var userId: UserId
     private lateinit var username: Username
-    private var password: Password? = null
+    private var encryptedEncryptedPassword: EncryptedPassword? = null
 
     @CommandHandler
     constructor(command: CreateRegisteredUserCommand) : this() {
         AggregateLifecycle.apply(
-                RegisteredUserCreated(command.userId,
-                        Username(command.username),
-                        Password(command.password))
+                RegisteredUserCreated(command.userId.id,
+                        command.username.username,
+                        command.encryptedPassword.password)
         )
     }
 
     @EventSourcingHandler
     fun on(event: RegisteredUserCreated) {
-        this.userId = event.userId
-        this.username = event.username
-        this.password = event.password
+        this.userId = UserId(event.userId)
+        this.username = Username(event.username)
+        this.encryptedEncryptedPassword = EncryptedPassword(event.encryptedPassword)
     }
 }

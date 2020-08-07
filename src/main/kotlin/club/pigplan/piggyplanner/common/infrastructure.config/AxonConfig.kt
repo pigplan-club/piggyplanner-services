@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.common.infrastructure.config
 
-import com.mongodb.MongoClient
+import com.mongodb.client.MongoClient
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.EventMessage
 import org.axonframework.eventhandling.tokenstore.TokenStore

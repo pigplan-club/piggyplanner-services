@@ -1,9 +1,7 @@
 package club.pigplan.piggyplanner.user.domain
 
-import club.pigplan.piggyplanner.user.domain.model.Password
-import club.pigplan.piggyplanner.user.domain.model.UserId
-import club.pigplan.piggyplanner.user.domain.model.Username
+import java.util.*
 
-data class RegisteredUserCreated(val userId: UserId,
-                                 val username: Username,
-                                 val password: Password)
+data class RegisteredUserCreated(val userId: UUID,
+                                 val username: String,
+                                 val encryptedPassword: String)

@@ -1,11 +1,12 @@
 package club.pigplan.piggyplanner.user.domain
 
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import club.pigplan.piggyplanner.user.domain.model.*
 import org.axonframework.test.aggregate.AggregateTestFixture
 import org.axonframework.test.aggregate.FixtureConfiguration
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.junit.jupiter.api.assertThrows
 import java.util.*
 
 class UserTest {
@@ -21,42 +22,40 @@ class UserTest {
     internal fun `Create Registered User should be correct`() {
         val userId = UUID.randomUUID()
 //        val passwordEncoded = passwordEncoder.encode("secret")
-        val passwordEncoded = "secret"
+        val encryptedPassword = "secret"
 
         val createUser = CreateRegisteredUserCommand(
                 userId = UserId(userId),
-                username = "user1",
-                password = passwordEncoded)
+                username = Username("user1"),
+                encryptedPassword = EncryptedPassword(encryptedPassword))
 
         fixture//.registerInjectableResource(passwordEncoder)
                 .givenNoPriorActivity()
                 .`when`(createUser)
                 .expectSuccessfulHandlerExecution()
                 .expectEvents(RegisteredUserCreated(
-                        userId = UserId(userId),
-                        username = Username("user1"),
-                        password = Password(passwordEncoded)))
+                        userId = userId,
+                        username = "user1",
+                        encryptedPassword = encryptedPassword))
     }
 
     @Test
     internal fun `Create Registered User with empty username should throw UsernameInvalidException`() {
-        val userId = UUID.randomUUID()
-        val createUser = CreateRegisteredUserCommand(userId = UserId(userId), username = "", password = "secret")
-
-        fixture//.registerInjectableResource(passwordEncoder)
-                .givenNoPriorActivity()
-                .`when`(createUser)
-                .expectException(UsernameInvalidException::class.java)
+        assertThrows<UsernameInvalidException>("Should throw UsernameInvalidException") {
+            CreateRegisteredUserCommand(
+                    userId = UserId(UUID.randomUUID()),
+                    username = Username(""),
+                    encryptedPassword = EncryptedPassword("secret"))
+        }
     }
 
     @Test
     internal fun `Create Registered User with empty password should throw PasswordInvalidException`() {
-        val userId = UUID.randomUUID()
-        val createUser = CreateRegisteredUserCommand(userId = UserId(userId), username = "user1", password = "")
-
-        fixture//.registerInjectableResource(passwordEncoder)
-                .givenNoPriorActivity()
-                .`when`(createUser)
-                .expectException(PasswordInvalidException::class.java)
+        assertThrows<PasswordInvalidException>("Should throw PasswordInvalidException") {
+            CreateRegisteredUserCommand(
+                    userId = UserId(UUID.randomUUID()),
+                    username = Username("user1"),
+                    encryptedPassword = EncryptedPassword(""))
+        }
     }
 }

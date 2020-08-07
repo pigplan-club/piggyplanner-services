@@ -23,7 +23,6 @@ graphql:
   packages:
     - "club.pigplan.piggyplanner"
 
-#Metrics related configurations
 management:
   endpoint:
     metrics:

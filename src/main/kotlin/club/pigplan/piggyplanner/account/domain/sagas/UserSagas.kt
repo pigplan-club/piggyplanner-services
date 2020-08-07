@@ -22,7 +22,7 @@ class UserSagas {
     @SagaEventHandler(associationProperty = "username")
     fun handle(event: RegisteredUserCreated) {
         commandGateway.send<AccountId>(
-                CreateDefaultAccountCommand(SaverId(event.userId.id)))
+                CreateDefaultAccountCommand(SaverId(event.userId)))
 
         SagaLifecycle.end()
     }
