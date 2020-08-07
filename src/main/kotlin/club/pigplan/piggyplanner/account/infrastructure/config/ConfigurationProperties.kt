@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "account")
-data class AccountConfigProperties(
+data class ConfigurationProperties(
         val defaultAccountName: String,
         val recordsQuotaByMonth: Int,
         val categoriesQuota: Int,

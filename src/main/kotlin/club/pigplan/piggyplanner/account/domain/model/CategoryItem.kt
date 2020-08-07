@@ -28,4 +28,8 @@ class CategoryItem(val categoryItemId: CategoryItemId) : Entity() {
         result = 31 * result + name.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "CategoryItem(categoryItemId=$categoryItemId, name='$name')"
+    }
 }

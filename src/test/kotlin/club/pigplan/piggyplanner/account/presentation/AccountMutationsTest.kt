@@ -1,7 +1,8 @@
 package club.pigplan.piggyplanner.account.presentation
 
-import club.pigplan.piggyplanner.account.domain.model.AccountId
+import club.pigplan.piggyplanner.account.application.RecordDTO
 import club.pigplan.piggyplanner.account.domain.model.RecordType
+import club.pigplan.piggyplanner.account.presentation.graphql.AccountMutations
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -16,23 +17,13 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 
 @SpringBootTest
-internal class AccountGraphQLTest {
+internal class AccountMutationsTest {
 
     @MockBean
     private lateinit var commandGateway: CommandGateway
 
     @Autowired
     private lateinit var accountMutations: AccountMutations
-
-    @Test
-    fun `Create a default Account should be correct`() {
-        val future = createCompletableFuture()
-        future.complete(AccountId(UUID.randomUUID()))
-
-        val response = accountMutations.createDefaultAccount()
-        assertNotNull("Expected AccountId not null", response.get().id)
-        assertEquals("Expected response id equal to the mocked value", response.get(), future.get())
-    }
 
     @Test
     fun createRecord() {

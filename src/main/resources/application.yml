@@ -1,5 +1,5 @@
 account:
-  default_account_name: Personal
+  default-account-name: Personal
   records-quota-by-month: 100
   categories-quota: 10
   category-items-quota: 80
@@ -16,9 +16,26 @@ spring:
       port: 27017
       username: admin
 
+server:
+  port: 8181
+
 graphql:
   packages:
     - "club.pigplan.piggyplanner"
 
-server:
-  port: 8181
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}

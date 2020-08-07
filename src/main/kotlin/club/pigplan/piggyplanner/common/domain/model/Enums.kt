@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.common.domain.model
 
-enum class EntityState{
+enum class EntityState {
     ENABLED,
     DISABLED
 }

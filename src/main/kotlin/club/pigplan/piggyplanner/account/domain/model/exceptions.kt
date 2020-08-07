@@ -18,6 +18,6 @@ class CategoryItemsQuotaExceededException : Exception("Category items quota exce
 
 class RecordAlreadyAddedException : IllegalArgumentException("Record duplicated")
 
-class RecordNotFoundException(id: UUID): IllegalArgumentException("Record with id $id not found")
+class RecordNotFoundException(id: UUID) : IllegalArgumentException("Record with id $id not found")
 
 class RecordsQuotaExceededException : Exception("Records quota exceeded")

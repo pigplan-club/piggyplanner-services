@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.RecordModified
+import club.pigplan.piggyplanner.account.domain.RecordModified
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import org.axonframework.eventsourcing.EventSourcingHandler
 import org.axonframework.modelling.command.EntityId
@@ -54,6 +54,4 @@ class Record(@EntityId val recordId: RecordId) : Entity() {
     override fun hashCode(): Int {
         return recordId.hashCode()
     }
-
-
 }

@@ -1,20 +1,27 @@
 import info.solidsoft.gradle.pitest.PitestTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val axonVersion = "4.4.1"
+val axonExtensionsVersion = "4.4"
+val graphqlKotlinVersion = "3.2.0"
+val shazamcrestVersion = "0.11"
+val pitestJunit5Version = "0.12"
+
 plugins {
-    id("org.springframework.boot") version "2.2.6.RELEASE"
+    id("org.springframework.boot") version "2.3.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    id("com.google.cloud.tools.jib") version "2.2.0"
-    id("info.solidsoft.pitest") version "1.4.7"
-    id("org.sonarqube") version "2.8"
-    kotlin("jvm") version "1.3.71"
-    kotlin("plugin.spring") version "1.3.71"
+    id("com.google.cloud.tools.jib") version "2.4.0"
+    id("info.solidsoft.pitest") version "1.5.1"
+    id("org.sonarqube") version "3.0"
+    kotlin("jvm") version "1.3.72"
+    kotlin("plugin.spring") version "1.3.72"
     jacoco
 }
 
 group = "club.piggyplanner"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
+
 
 configurations {
     compileOnly {
@@ -30,6 +37,13 @@ dependencies {
     //Spring boot webflux
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    //Spring actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    //Micrometer for prometheus
+    implementation("io.micrometer:micrometer-core")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
     //Mongo DB
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
@@ -41,28 +55,29 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
     //Axon framework
-    implementation("org.axonframework:axon-spring-boot-starter:4.3.1")
-    implementation("org.axonframework.extensions.mongo:axon-mongo:4.2")
+    implementation("org.axonframework:axon-spring-boot-starter:$axonVersion")
+    implementation("org.axonframework:axon-micrometer:$axonVersion")
+    implementation("org.axonframework.extensions.mongo:axon-mongo:$axonExtensionsVersion")
 
     //GraphQL
-    implementation("com.expediagroup:graphql-kotlin-spring-server:2.0.0")
-    implementation("com.expediagroup:graphql-kotlin-schema-generator:2.0.0")
+    implementation("com.expediagroup:graphql-kotlin-spring-server:$graphqlKotlinVersion")
+    implementation("com.expediagroup:graphql-kotlin-schema-generator:$graphqlKotlinVersion")
 
     //Testing
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test")
-    testImplementation("com.shazam:shazamcrest:0.11")
+    testImplementation("com.shazam:shazamcrest:$shazamcrestVersion")
 
     //Mongo db testing
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 
     //Axon framework testing
-    testImplementation("org.axonframework:axon-test:4.3.1")
+    testImplementation("org.axonframework:axon-test:$axonVersion")
 
     //Pitest extension for junit5
-    testImplementation("org.pitest:pitest-junit5-plugin:0.12")
+    testImplementation("org.pitest:pitest-junit5-plugin:$pitestJunit5Version")
 }
 
 jib {
@@ -75,13 +90,6 @@ jib {
 tasks {
     withType<Test> {
         useJUnitPlatform()
-        configure<JacocoTaskExtension> {
-            excludes = listOf(
-                    "**/common/infrastructure/**",
-                    "**/PiggyPlannerServicesApplication"
-            )
-        }
-
         finalizedBy(jacocoTestReport)
     }
 
@@ -108,7 +116,11 @@ tasks {
         outputFormats.set(setOf("HTML"))
         mutators.set(setOf("DEFAULTS"))
         avoidCallsTo.set(setOf("kotlin.jvm.internal", "kotlinx.coroutines"))
-        targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
+//        targetClasses.set(setOf("club.pigplan.piggyplanner.*"))
+        targetClasses.set(setOf(
+                "club.pigplan.piggyplanner.account.*",
+                "club.pigplan.piggyplanner.user.*"
+        ))
     }
 
     named("build") {

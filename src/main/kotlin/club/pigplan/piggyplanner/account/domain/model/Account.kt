@@ -1,7 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.*
-import club.pigplan.piggyplanner.account.infrastructure.config.AccountConfigProperties
+import club.pigplan.piggyplanner.account.domain.*
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
 import org.axonframework.commandhandling.CommandHandler
@@ -17,7 +16,7 @@ class Account() : Entity() {
 
     @AggregateIdentifier
     private lateinit var accountId: AccountId
-    private lateinit var userId: UserId
+    private lateinit var saverId: SaverId
     private lateinit var name: String
 
     private var recordsQuotaByMonth: Int = -1
@@ -30,22 +29,19 @@ class Account() : Entity() {
     @AggregateMember
     private val categories = mutableSetOf<Category>()
 
-    @CommandHandler
-    constructor(command: CreateDefaultAccount, accountConfigProperties: AccountConfigProperties) : this() {
-        AggregateLifecycle.apply(DefaultAccountCreated(
-                command.accountId,
-                command.userId,
-                accountConfigProperties.defaultAccountName,
-                accountConfigProperties.recordsQuotaByMonth,
-                accountConfigProperties.categoriesQuota,
-                accountConfigProperties.categoryItemsQuota)
+    constructor(accountId: AccountId, saverId: SaverId, categories: Set<Category>,
+                accountName: String, recordsQuotaByMonth: Int, categoriesQuota: Int,
+                categoryItemsQuota: Int) : this() {
+
+        AggregateLifecycle.apply(AccountCreated(
+                accountId, saverId, accountName, recordsQuotaByMonth, categoriesQuota, categoryItemsQuota)
         )
 
-        command.categories.forEach { AggregateLifecycle.apply(CategoryCreated(command.accountId, it)) }
+        categories.forEach { AggregateLifecycle.apply(CategoryCreated(accountId, it)) }
     }
 
     @CommandHandler
-    fun handle(command: CreateCategory): Boolean {
+    fun handle(command: CreateCategoryCommand): Boolean {
         if (categories.filter { it.state == EntityState.ENABLED }.size >= this.categoriesQuota)
             throw CategoriesQuotaExceededException()
 
@@ -58,11 +54,11 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: CreateCategoryItem): Boolean {
+    fun handle(command: CreateCategoryItemCommand): Boolean {
         val category = categories.find { category -> category.categoryId == command.categoryId }
                 ?: throw CategoryNotFoundException(command.categoryId.id)
 
-        if (category.wasExceededQuota(this.categoryItemsQuota))
+        if (category.wasCategoryItemExceededQuota(this.categoryItemsQuota))
             throw CategoryItemsQuotaExceededException()
 
         val newCategoryItem = CategoryItem(command.categoryItemId, command.name)
@@ -76,7 +72,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: CreateRecord): Boolean {
+    fun handle(command: CreateRecordCommand): Boolean {
         if (numberRecordsForSelectedMonth(command.date) >= recordsQuotaByMonth)
             throw RecordsQuotaExceededException()
 
@@ -101,7 +97,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: ModifyRecord): Boolean {
+    fun handle(command: ModifyRecordCommand): Boolean {
         if (records.find { record -> record.recordId == command.recordId } == null)
             throw RecordNotFoundException(command.recordId.id)
 
@@ -123,7 +119,7 @@ class Account() : Entity() {
     }
 
     @CommandHandler
-    fun handle(command: DeleteRecord): Boolean {
+    fun handle(command: DeleteRecordCommand): Boolean {
         if (records.find { record -> record.recordId == command.recordId } == null)
             throw RecordNotFoundException(command.recordId.id)
 
@@ -134,9 +130,9 @@ class Account() : Entity() {
     }
 
     @EventSourcingHandler
-    fun on(event: DefaultAccountCreated) {
+    private fun on(event: AccountCreated) {
         this.accountId = event.accountId
-        this.userId = event.userId
+        this.saverId = event.saverId
         this.name = event.accountName
         this.recordsQuotaByMonth = event.recordsQuotaByMonth
         this.categoriesQuota = event.categoriesQuota
@@ -144,17 +140,17 @@ class Account() : Entity() {
     }
 
     @EventSourcingHandler
-    fun on(event: CategoryCreated) {
+    private fun on(event: CategoryCreated) {
         this.categories.add(event.category)
     }
 
     @EventSourcingHandler
-    fun on(event: RecordCreated) {
+    private fun on(event: RecordCreated) {
         this.records.add(event.record)
     }
 
     @EventSourcingHandler
-    fun on(event: RecordDeleted) {
+    private fun on(event: RecordDeleted) {
         this.records.remove(
                 Record(event.recordId)
         )

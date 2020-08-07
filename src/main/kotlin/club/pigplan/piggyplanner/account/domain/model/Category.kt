@@ -1,6 +1,6 @@
 package club.pigplan.piggyplanner.account.domain.model
 
-import club.pigplan.piggyplanner.account.domain.operations.CategoryItemCreated
+import club.pigplan.piggyplanner.account.domain.CategoryItemCreated
 import club.pigplan.piggyplanner.common.domain.model.Entity
 import club.pigplan.piggyplanner.common.domain.model.EntityState
 import org.axonframework.eventsourcing.EventSourcingHandler
@@ -25,7 +25,7 @@ class Category(@EntityId val categoryId: CategoryId) : Entity() {
         this.categoryItems.add(categoryItem)
     }
 
-    fun wasExceededQuota(categoryItemsQuota: Int) =
+    fun wasCategoryItemExceededQuota(categoryItemsQuota: Int) =
             this.categoryItems.filter { it.state == EntityState.ENABLED }.size >= categoryItemsQuota
 
     fun getCategoryItem(categoryItemIdToFind: CategoryItemId) =
@@ -51,4 +51,10 @@ class Category(@EntityId val categoryId: CategoryId) : Entity() {
         result = 31 * result + name.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "Category(categoryId=$categoryId, name='$name', categoryItems=$categoryItems)"
+    }
+
+
 }
